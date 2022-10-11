@@ -21,6 +21,10 @@ public class Blok {
 		
 	}
 	
+	public void setZauzet() {
+		zauzet=true;
+	}
+	
 	
 
 }
