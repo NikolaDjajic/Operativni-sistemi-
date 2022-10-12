@@ -21,9 +21,21 @@ public class Blok {
 		
 	}
 	
+	public void obrisiSadrzaj() {
+		this.sadrzaj=null;
+	}
+	
 	public void setZauzet() {
 		zauzet=true;
 	}
+	
+	public void setSlobodan() {
+		zauzet=false;
+	}
+	
+	
+	
+
 	
 	
 
