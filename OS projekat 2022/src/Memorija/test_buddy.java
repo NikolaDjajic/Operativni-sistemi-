@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+// NE RADIIIIIIIIIIIII al nek stoji 
 public class test_buddy {
 	
 	static Scanner scan=new Scanner(System.in);
@@ -13,7 +14,9 @@ public class test_buddy {
 	
 	//lista u kojoj cuvam sve cvorove
 	static ArrayList<Cvor> drvo1=new ArrayList<Cvor>();
+	static ArrayList<Cvor> slobodniDijelovi=new ArrayList<Cvor>();
 	
+	static int sumaSlobodnih=0;
 	
 	public static void postavljanje(int vr) {
 		
@@ -42,11 +45,15 @@ public class test_buddy {
 			if(!drvo1.get(i).blok.zauzet && drvo1.get(i).blok.velicina==min) {
 			
 				if(vr<=(drvo1.get(i).blok.velicina/2)) {
-					
+					drvo1.get(i).blok.setZauzet();
 					//nove dvije grane
 					drvo1.get(i).lijevo=new Cvor(new Blok(drvo1.get(i).blok.velicina/2,drvo1.get(i).blok.adresa+1));
 					drvo1.get(i).desno=new Cvor(new Blok(drvo1.get(i).blok.velicina/2,drvo1.get(i).blok.adresa+2));
 					drvo1.get(i).lijevo.blok.setZauzet();
+					slobodniDijelovi.add(drvo1.get(i).desno);
+					slobodniDijelovi.remove(drvo1.get(i).blok);
+					sumaSlobodnih+=drvo1.get(i).desno.blok.velicina;
+					sumaSlobodnih-=drvo1.get(i).blok.velicina;
 					drvo1.add(drvo1.get(i).lijevo);
 					drvo1.add(drvo1.get(i).desno);
 				}
@@ -61,36 +68,7 @@ public class test_buddy {
 
 	
 
-		//bezuspjesni slucaj kme
-		/*if(vr<=korijen.blok.velicina/) {
-			korijen.lijevo=new Cvor(new Blok(korijen.blok.adresa/2,korijen.blok.adresa+1));
-			korijen.desno=new Cvor(new Blok(korijen.blok.adresa/2,korijen.blok.adresa+1));
-			korijen.lijevo.blok.setZauzet();
-			korijen.lijevo.blok.dodajSadrzaj(vr+"");
-		}
-		else {
-			korijen.blok.setZauzet();
-		}*/
-		
-		
-		/*for(Map.Entry<Cvor,Integer> entry : drvo.entrySet()) {
-			if(!entry.getKey().blok.zauzet) {
-				if(vr<=(entry.getKey().blok.velicina/2)) {
-					entry.getKey().lijevo=new Cvor(new Blok(entry.getKey().blok.velicina/2,entry.getKey().blok.adresa+1));
-					entry.getKey().desno=new Cvor(new Blok(entry.getKey().blok.velicina/2,entry.getKey().blok.adresa+2));
-					entry.getKey().lijevo.blok.setZauzet();
-					drvo.put(entry.getKey().lijevo, entry.getValue()*2);
-					drvo.put(entry.getKey().desno, entry.getValue()*2+1);
-					
-				}}
-				else if(vr>(entry.getKey().blok.velicina/2)) {
-					entry.getKey().blok.setZauzet();
-				}
-				else {
-					continue;
-				}
-			
-		}*/
+
 		
 		
 	}
@@ -105,32 +83,24 @@ public class test_buddy {
 		drvo1.add(korijen);
 		
 		for(int i=0;i<5;i++) {
+			
+			System.out.println("Unesite zeljenu vrijednost:");
+			int vr=scan.nextInt();
+			postavljanje(vr);
+			
 			for(int j=0;j<drvo1.size();j++) {
-		
+				
 				System.out.println("----");
 				System.out.println(j+": "+drvo1.get(j).blok.velicina);
 				
 			}
-			System.out.println("Unesite zeljenu vrijednost:");
-			int vr=scan.nextInt();
-			postavljanje(vr);
+			for(int j=0;j<slobodniDijelovi.size();j++) {
+				System.err.println("-->"+slobodniDijelovi.get(j).blok.velicina);
+			}
 		}
 		
 	}
 
 }
 
-class Cvor{
-	
-	Blok blok;
-	Cvor lijevo;
-	Cvor desno;
-	
-	Cvor(Blok b){
-		this.blok=b;
-		lijevo=null;
-		desno=null;
-	}
-	
-}
 
