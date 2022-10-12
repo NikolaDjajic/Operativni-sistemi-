@@ -9,15 +9,22 @@ public class BuddyS {
 	static int ukupnaMemorija;
 	static ArrayList<Integer> djelioci=new ArrayList<Integer>();
 	static ArrayList<Cvor> drvo=new ArrayList<Cvor>();
-	static int slobodnaMemorija;
+	static int najveciSlobodanBlok;
 	
 public static void popunjavanje(int vr) {
+	
+	for(int i=0;i<drvo.size();i++) {
+		if(!drvo.get(i).blok.zauzet) {
+			najveciSlobodanBlok=drvo.get(i).vrijednost;
+			break;
+		}
+	}
 		
-		//if(slobodnaMemorija<vr) {
-			//System.out.println("---"+slobodnaMemorija+"----");
-			//System.err.println("Nedovoljno memorije za Vas");
-	//	}
-		//else {
+	if(najveciSlobodanBlok<vr) {
+			System.out.println("---"+najveciSlobodanBlok+"----");
+			System.err.println("Nedovoljno memorije za Vas");
+	}
+	else {
 		
 			int trazeni=0;
 			//pronadjimo koji to blok bi odgovarao nasem 
@@ -37,7 +44,6 @@ public static void popunjavanje(int vr) {
 				if(drvo.get(i).vrijednost==trazeni && !drvo.get(i).blok.zauzet) {
 					//System.out.println("Ovdje ne bi trebalo uci");
 					drvo.get(i).blok.setZauzet();
-					slobodnaMemorija-=drvo.get(i).vrijednost;
 					popunjeno=true;
 					cvorKojiPunim=drvo.get(i);
 				}
@@ -92,7 +98,7 @@ public static void popunjavanje(int vr) {
 		
 		//stavimo sadrzaj u nas cvor
 		cvorKojiPunim.blok.dodajSadrzaj(vr+" ");
-		//}
+		}
 		
 		
 	}
@@ -144,7 +150,6 @@ public static void popunjavanje(int vr) {
 		Cvor korijen=new Cvor(new Blok(1024,1001));
 		drvo.add(korijen);
 		ukupnaMemorija=1024;
-		slobodnaMemorija=1024;
 		djelioci();
 		//for(int i=0;i<djelioci.size();i++)
 			//System.out.println(djelioci.get(i));
@@ -186,6 +191,14 @@ public static void popunjavanje(int vr) {
 			System.out.println(i+" : "+drvo.get(i).blok.velicina);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
+		}
+		System.out.println("----");
+		popunjavanje(530);
+		for(int i=0;i<drvo.size();i++) {
+			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			if(drvo.get(i).blok.sadrzaj!=null)
+				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
+			
 		}
 		
 		
