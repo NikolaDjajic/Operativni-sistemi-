@@ -61,10 +61,5 @@ public class RasporedjivacProcesa extends Thread{
 		Proces p6 = new Proces("p7",2);
 		RasporedjivacProcesa.isipisiRedIzvrsavanja();
 		
-	}
-	
-	
-	
-	
-	
+	}	
 }
