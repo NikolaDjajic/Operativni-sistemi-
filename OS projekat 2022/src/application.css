@@ -1,0 +1,36 @@
+.root{
+    -fx-background-color: #000000;
+}
+
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color:transparent;
+    -fx-font-family: Consolas;
+    -fx-font-size: 22;
+    -fx-display-caret:true;
+    -fx-focus-color: #32CD32;
+    -fx-text-box-border: #32CD32;
+    -fx-border-color: #32CD32;
+    -fx-text-fill: #32CD32;
+}
+
+.text-field {
+    -fx-background-color: #000000;
+    -fx-text-fill:#ffffff;
+    -fx-font-family: Consolas;
+    -fx-font-size: 22;
+    -fx-border-color: #32CD32;
+}
+
+.text-area .content{
+    -fx-background-color: #000000;
+    -fx-text-box-border: #000000;
+}
+/* 
+.button {
+    -fx-background-color: #001f27;
+    -fx-text-fill: #15ffd3;
+    -fx-border-color: #15ffd3;
+
+}*/
+
