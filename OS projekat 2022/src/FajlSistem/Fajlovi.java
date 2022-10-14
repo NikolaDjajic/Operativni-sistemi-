@@ -2,6 +2,8 @@ package FajlSistem;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Scanner;
 
@@ -74,51 +76,24 @@ public class Fajlovi {
        	file.delete(); 
     }
 	
+	public boolean uStablu(String naziv) {
+		System.err.println(trenutni.list());
+		for(String s:trenutni.list())
+			if(s.equals(naziv))
+				return true;
+		return false;
+	}
+	
 	public String[] getListTren() {
 		return trenutni.list();
 	}
 	
 	public String getTrStr() {
 		return trenutni.getAbsolutePath();
-	}	
+	}
+
+	public static void setOut(OutputStream out) {
+		System.setOut(new PrintStream(out, true));
+	}
 	
-	/*public static void main(String[] args) {
-		Fajlovi f = new Fajlovi("Programi");
-		f.ispisiTr();
-		
-		while(true) {
-			Scanner scan = new Scanner(System.in);
-		
-			String str = scan.nextLine();
-			String []niz=str.split("\\s+");
-		
-			
-		
-			if(str.equals("end"))
-				break;
-		
-			if(niz[0].equals(".."))
-				f.changeDir("..");
-			
-			if(niz[0].equals("cd"))
-				f.changeDir(niz[1]);
-		
-			if(niz[0].equals("mkd"))
-				f.mkd(niz[1]);
-		
-			if(niz[0].equals("mkf"))
-				f.mkf(niz[1]);
-		
-			if(niz[0].equals("del")) {
-				String[] niz1 = f.getListTren();
-				for(String s1:niz1)
-					if(niz[1].equals(s1)) 
-						f.del(new File(f.getTrStr()+"\\"+niz[1]));					
-			}
-			
-			
-		
-		f.ispisiTr();
-		}
-	}*/
 }

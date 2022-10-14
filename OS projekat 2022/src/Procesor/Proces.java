@@ -39,8 +39,6 @@ public class Proces {
 		
 		
 	//	RasporedjivacProcesa.sviProcesi.add(this);
-	//	RasporedjivacProcesa.redIzvrsavanja.add(this);
-	//	RasporedjivacProcesa.updatetRI();
 	}
 	
 	public Proces(String naziv,String put) {
@@ -61,7 +59,7 @@ public class Proces {
 		this.masinskeInstrukcije=Asembler.generisiMasinski(this.asemblerskeInstrukcije);
 
 		
-		RasporedjivacProcesa.sviProcesi.add(this);
+	//	RasporedjivacProcesa.sviProcesi.add(this);
 	}
 	
 	public void sacuvajVrijednostRegistara(int[] vrReg) {
@@ -91,7 +89,6 @@ public class Proces {
 			if (RasporedjivacProcesa.redIzvrsavanja.contains(this))
 				RasporedjivacProcesa.redIzvrsavanja.remove(this);
 		} else if (stanje == StanjeProcesa.BLOCKED) {
-		//	MemoryManager.removeProcess(this);			Da ga izbaci iz Rama
 			stanje = StanjeProcesa.TERMINATED;
 		}
 	}
@@ -110,7 +107,6 @@ public class Proces {
 			citac.close();
 			prioritet = asemblerskeInstrukcije.size();
 			this.stanje=StanjeProcesa.READY;
-			
 			
 		} catch (FileNotFoundException e) {
 			System.out.printf("Error! \n");

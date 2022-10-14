@@ -1,5 +1,7 @@
 package Procesor;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +24,7 @@ public class RasporedjivacProcesa extends Thread{
 	
 	@Override
 	public void run() {
-		while (true) {
+		//while (true) {
             synchronized (this) {
             	
             	for(Proces p:sviProcesi) {
@@ -53,7 +55,7 @@ public class RasporedjivacProcesa extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}}
+		}
             
   //      }	
 //	}
@@ -66,8 +68,6 @@ public class RasporedjivacProcesa extends Thread{
 		
 		izvrsiMasinski(this.trenutniProces);
 		this.trenutniProces.stanje=StanjeProcesa.DONE;
-		
-		
 	}
 	
 	public static void izvrsiMasinski(Proces p) {
@@ -113,14 +113,13 @@ public class RasporedjivacProcesa extends Thread{
 		Asembler.resetRegistre();
 	}
 	
-
 	
 	public static void ucitajProces(String naziv,String put) {
+		System.err.println(naziv+" "+ put);
+		
 		Proces novi = new Proces(naziv,put);
+		System.err.println(novi+" "+put+"");
 		sviProcesi.add(novi);
-		redIzvrsavanja.add(novi);
-		updatetRI();
-	//	return listOfProccesses.get(listOfProccesses.size() - 1).getProcessID();
 	}
 	
 	public static void updatetRI() {
@@ -141,8 +140,25 @@ public class RasporedjivacProcesa extends Thread{
 	}
 	
 	public static void isipisiRedIzvrsavanja() {
-		for(Proces p : redIzvrsavanja)
-			System.out.println(p.ime);
+		System.out.println("Procesi u redu izvrsavanja:");
+		if(redIzvrsavanja.size()>0)
+			for(Proces p : redIzvrsavanja)
+				System.out.println(p.ID+" "+ p.ime+" "+p.prioritet+" "+p.stanje);
+		else
+			System.out.println("Nijedan proces nije ucitan!");
+	}
+	
+	public static void ispisiSveProcese() {
+		System.out.println("Svi procesi:");
+		if(sviProcesi.size()>0)
+			for(Proces p : sviProcesi)
+				System.out.println(p.ID+" "+ p.ime+" "+p.prioritet+" "+p.stanje);
+		else
+			System.out.println("Nijedan proces nije ucitan!");
+	}
+	
+	public static void setOut(OutputStream out) {
+		System.setOut(new PrintStream(out, true));
 	}
 	
 	public static void main(String[]args) {
