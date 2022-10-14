@@ -97,14 +97,14 @@ public static void popunjavanje(int vr) {
 				}}
 		
 		//stavimo sadrzaj u nas cvor
-		cvorKojiPunim.blok.dodajSadrzaj(vr+" ");
+		//cvorKojiPunim.blok.dodajSadrzaj();
 		}
 		
 		
 	}
 
 	
-	public static void oslobadjanje(String sadrzaj) {
+	public static void oslobadjanje(byte[] sadrzaj) {
 		
 		for(int i=0;i<drvo.size();i++) {
 			
@@ -156,46 +156,54 @@ public static void popunjavanje(int vr) {
 		
 		popunjavanje(80);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 			
 		}
 		System.out.println("----");
 		
-		String s=80+" ";
+		byte[] s=(80+"").getBytes();
 		oslobadjanje(s);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 		}
 		System.out.println("----");
 		popunjavanje(80);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 		}
 		System.out.println("----");
 		popunjavanje(10);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 			
 		}
-		String s1=80+" ";
+		byte[] s1=(80+" ").getBytes();
 		oslobadjanje(s1);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 		}
 		System.out.println("----");
 		popunjavanje(530);
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina);
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
+			if(drvo.get(i).blok.sadrzaj!=null)
+				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
+			
+		}
+		System.out.println("----");
+		popunjavanje(90);
+		for(int i=0;i<drvo.size();i++) {
+			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
 			if(drvo.get(i).blok.sadrzaj!=null)
 				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
 			
