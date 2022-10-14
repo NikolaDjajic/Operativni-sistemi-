@@ -1,18 +1,25 @@
 package Memorija;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-//fali slobodna memorija
+import FajlSistem.FajlMemorija;
+
 
 public class BuddyS {
 	
-	static int ukupnaMemorija;
+	static int ukupnaMemorija=1024;
 	static ArrayList<Integer> djelioci=new ArrayList<Integer>();
 	static ArrayList<Cvor> drvo=new ArrayList<Cvor>();
+	static ArrayList<Cvor> slobodniBlokovi=new ArrayList<Cvor>();
 	static int najveciSlobodanBlok;
+	static Cvor korijen=new Cvor(new Blok(1024,1001));
 	
-public static void popunjavanje(int vr) {
 	
+public static void popunjavanje(FajlMemorija fajl,int vr) {
+	drvo.add(korijen);
+	
+	djelioci();
 	for(int i=0;i<drvo.size();i++) {
 		if(!drvo.get(i).blok.zauzet) {
 			najveciSlobodanBlok=drvo.get(i).vrijednost;
@@ -67,6 +74,8 @@ public static void popunjavanje(int vr) {
 								drvo.get(i).lijevo=new Cvor(new Blok(trazeni/2,drvo.get(i).blok.adresa+1));
 								drvo.get(i).desno=new Cvor(new Blok(trazeni/2,drvo.get(i).blok.adresa+2));
 								
+								
+								
 								drvo.get(i).blok.setZauzet();
 								drvo.get(i).lijevo.blok.setZauzet();
 								
@@ -95,26 +104,29 @@ public static void popunjavanje(int vr) {
 					}
 			
 				}}
+			
 		
 		//stavimo sadrzaj u nas cvor
-		//cvorKojiPunim.blok.dodajSadrzaj();
+		cvorKojiPunim.blok.dodajSadrzaj(fajl.getBajtSadrzaj());
+		cvorKojiPunim.blok.dodajSadrzajString( fajl.getSadrzaj());
+		cvorKojiPunim.blok.setImeFajlaUBloku(fajl.getIme());
 		}
 		
 		
 	}
 
 	
-	public static void oslobadjanje(byte[] sadrzaj) {
+	public static void oslobadjanje(FajlMemorija fajl) {
 		
 		for(int i=0;i<drvo.size();i++) {
 			
-			if(drvo.get(i).blok.sadrzaj!=null && drvo.get(i).blok.sadrzaj.equals(sadrzaj) ) {
+			if(drvo.get(i).blok.sadrzajString!=null && drvo.get(i).blok.sadrzajString.equals(fajl.getSadrzaj()) ) {
 				
 				drvo.get(i).blok.obrisiSadrzaj();
 				
 				//hocemo li slijepiti ili ne
 				if(!drvo.get(i).brat.blok.zauzet) {
-					System.out.println("---obrisan sadrzaj "+sadrzaj+" iz bloka sa pozicije "+i+ "obrisan je i njegov parnjak na poziciji "+drvo.indexOf(drvo.get(i).brat));
+					System.out.println("---obrisan sadrzaj "+fajl.getSadrzaj()+" iz bloka sa pozicije "+i+ "obrisan je i njegov parnjak na poziciji "+drvo.indexOf(drvo.get(i).brat));
 					Cvor lijevo=drvo.get(i).roditelj.lijevo;
 					Cvor desno=drvo.get(i).roditelj.desno;
 					drvo.get(i).roditelj.blok.setSlobodan();
@@ -124,7 +136,7 @@ public static void popunjavanje(int vr) {
 				}
 				//ako necemo, oslabadjam samo trazeni blok
 				else {
-					System.out.println("---obrisan sadrzaj "+sadrzaj+" iz bloka sa pozicije "+i+ ", njegov parnjak je zauzet na poziciji "+drvo.indexOf(drvo.get(i).brat));
+					System.out.println("---obrisan sadrzaj "+fajl.getSadrzaj()+" iz bloka sa pozicije "+i+ ", njegov parnjak je zauzet na poziciji "+drvo.indexOf(drvo.get(i).brat));
 					drvo.get(i).blok.setSlobodan();
 				}
 				
@@ -133,6 +145,7 @@ public static void popunjavanje(int vr) {
 				continue;
 			}
 		}
+	
 		
 	}
 	
@@ -145,73 +158,24 @@ public static void popunjavanje(int vr) {
 		}
 	}
 	
-	public static void main(String[]args) {
-		
-		Cvor korijen=new Cvor(new Blok(1024,1001));
-		drvo.add(korijen);
-		ukupnaMemorija=1024;
-		djelioci();
-		//for(int i=0;i<djelioci.size();i++)
-			//System.out.println(djelioci.get(i));
-		
-		popunjavanje(80);
+	
+	public static ArrayList<Cvor> getDrvo(){
+		return drvo;
+	}
+	
+	public static void setSlobodniBlokovi(){
+	
+		ArrayList<Cvor> s=new ArrayList<Cvor>();
 		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-			
+			if(!drvo.get(i).blok.zauzet)
+				s.add(drvo.get(i));
 		}
-		System.out.println("----");
-		
-		byte[] s=(80+"").getBytes();
-		oslobadjanje(s);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-		}
-		System.out.println("----");
-		popunjavanje(80);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-		}
-		System.out.println("----");
-		popunjavanje(10);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-			
-		}
-		byte[] s1=(80+" ").getBytes();
-		oslobadjanje(s1);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-		}
-		System.out.println("----");
-		popunjavanje(530);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-			
-		}
-		System.out.println("----");
-		popunjavanje(90);
-		for(int i=0;i<drvo.size();i++) {
-			System.out.println(i+" : "+drvo.get(i).blok.velicina+"|"+drvo.get(i).blok.zauzet);
-			if(drvo.get(i).blok.sadrzaj!=null)
-				System.err.println("sadrzaj "+drvo.get(i).blok.sadrzaj+" je u "+i);
-			
-		}
-		
-		
-		
-		
+		slobodniBlokovi=s;
+	}
+	
+	public static ArrayList<Cvor> getSlobodniBlokovi() {
+		setSlobodniBlokovi();
+		return slobodniBlokovi;
 	}
 }
 

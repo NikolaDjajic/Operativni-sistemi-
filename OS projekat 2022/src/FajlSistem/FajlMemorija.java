@@ -1,5 +1,7 @@
 package FajlSistem;
 
+import java.nio.charset.StandardCharsets;
+
 import Memorija.Blok;
 
 public class FajlMemorija {
@@ -9,6 +11,7 @@ public class FajlMemorija {
 	private int indexBlok;
 	private int duzina;
 	private static byte[] sadrzaj=new byte[0];
+	private String sadrzajString;
 	
 	public void setIndexBlok(int i) {
 		this.indexBlok=i;
@@ -21,6 +24,7 @@ public class FajlMemorija {
 	public FajlMemorija(String ime, byte[] sadrzaj) {
 		this.ime=ime;
 		sadrzaj=sadrzaj;
+		sadrzajString = new String(sadrzaj, StandardCharsets.UTF_8);
 		velicina=sadrzaj.length;
 	}
 	
@@ -41,6 +45,15 @@ public class FajlMemorija {
 		}
 		return dio;
 	}
+	
+	public String getSadrzaj() {
+		return sadrzajString;
+	}
+	
+	public byte[] getBajtSadrzaj() {
+		return sadrzaj;
+	}
+	
 	
 	public int getDuzina() {
 		return duzina;
