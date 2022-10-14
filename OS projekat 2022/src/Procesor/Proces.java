@@ -11,6 +11,8 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import com.sun.javafx.webkit.UIClientImpl;
 
+import Asembler.Asembler;
+
 public class Proces {
 	
 	int ID,prioritet;
@@ -22,7 +24,7 @@ public class Proces {
 	Random rand = new Random(5);
 	String putanja;
 	ArrayList<String> asemblerskeInstrukcije;
-	ArrayList<String> masinskeInstrukcije;
+	String masinskeInstrukcije;
 	
 	
 	public Proces(String naziv,int pr,String put) {
@@ -33,10 +35,12 @@ public class Proces {
 		this.putanja=put;
 		asemblerskeInstrukcije=new ArrayList<String>();
 		citajDatoteku();
+		this.masinskeInstrukcije=Asembler.generisiMasinski(asemblerskeInstrukcije);
 		
-		RasporedjivacProcesa.sviProcesi.add(this);
-		RasporedjivacProcesa.redIzvrsavanja.add(this);
-		RasporedjivacProcesa.updatetRI();
+		
+	//	RasporedjivacProcesa.sviProcesi.add(this);
+	//	RasporedjivacProcesa.redIzvrsavanja.add(this);
+	//	RasporedjivacProcesa.updatetRI();
 	}
 	
 	public Proces(String naziv,String put) {
@@ -47,9 +51,17 @@ public class Proces {
 		asemblerskeInstrukcije=new ArrayList<String>();
 		citajDatoteku();
 		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.masinskeInstrukcije=Asembler.generisiMasinski(this.asemblerskeInstrukcije);
+
+		
 		RasporedjivacProcesa.sviProcesi.add(this);
-		RasporedjivacProcesa.redIzvrsavanja.add(this);
-		RasporedjivacProcesa.updatetRI();
 	}
 	
 	public void sacuvajVrijednostRegistara(int[] vrReg) {
@@ -79,7 +91,7 @@ public class Proces {
 			if (RasporedjivacProcesa.redIzvrsavanja.contains(this))
 				RasporedjivacProcesa.redIzvrsavanja.remove(this);
 		} else if (stanje == StanjeProcesa.BLOCKED) {
-		//	MemoryManager.removeProcess(this);			Da ga izbaci iz memorije
+		//	MemoryManager.removeProcess(this);			Da ga izbaci iz Rama
 			stanje = StanjeProcesa.TERMINATED;
 		}
 	}
@@ -98,8 +110,7 @@ public class Proces {
 			citac.close();
 			prioritet = asemblerskeInstrukcije.size();
 			this.stanje=StanjeProcesa.READY;
-			RasporedjivacProcesa.redIzvrsavanja.add(this);
-			RasporedjivacProcesa.updatetRI();
+			
 			
 		} catch (FileNotFoundException e) {
 			System.out.printf("Error! \n");
@@ -109,19 +120,26 @@ public class Proces {
 	
 	
 	public void ispisiAsemblerskeInst() {
-		
 		for(String s:asemblerskeInstrukcije)
 			System.out.println(s);
-		
 	}
 	
 	public static void main(String[]args) {
+	//	Asembler a = new Asembler();
+	//	Proces p = new Proces("cao","C:\\Users\\pc\\Desktop\\os1\\Operativni-sistemi--main\\OS projekat 2022\\Programi\\cao\\test01.asm");
 		
 		
+	//	p.ispisiAsemblerskeInst();
 		
-		Proces p = new Proces("cao","C:\\Users\\pc\\Desktop\\OS projekat 2022\\Programi\\cao\\test01.asm");
+	
 		
-		p.ispisiAsemblerskeInst();
+	//	p.masinskeInstrukcije=a.generisiMasinski(p.asemblerskeInstrukcije);
+	
+	//	System.out.println(p.masinskeInstrukcije);
+		
+		
+	//	a.izvrsiMasinski(p.masinskeInstrukcije);
+		
 	}
 	
 	

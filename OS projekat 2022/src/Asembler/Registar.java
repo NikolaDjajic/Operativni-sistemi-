@@ -2,8 +2,8 @@ package Asembler;
 
 
 public class Registar {
-	String ime,adresa;
-	int vrijednost;
+	private String ime,adresa;
+	private int vrijednost;
 	
 	public Registar(String ime,int adresa,int vrijednost) {
 		this.ime=ime;
@@ -18,11 +18,18 @@ public class Registar {
 	}
 
 	public String getIme() {
-		return ime;
+		return this.ime;
+	}
+	
+	public String getAdresa() {
+		return this.adresa;
 	}
 
 	public int getVrijednost() {
-		return vrijednost;
+		return this.vrijednost;
 	}
 	
+	public void setVrijednost(int vr) {
+		this.vrijednost=vr;
+	}
 }
