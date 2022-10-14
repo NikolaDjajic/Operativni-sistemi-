@@ -169,7 +169,7 @@ public class Main extends Application {
 			}
 		}
 		
-		if(niz[0].equals("exe")) 
+		if(niz[0].equals("exe"))
 			rp.run();
 		
 		if(niz[0].equals("mem")) {
