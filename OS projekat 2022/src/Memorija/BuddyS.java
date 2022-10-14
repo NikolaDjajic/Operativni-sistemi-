@@ -15,9 +15,13 @@ public class BuddyS {
 	static int najveciSlobodanBlok;
 	static Cvor korijen=new Cvor(new Blok(1024,1001));
 	
+
+	
 	
 public static void popunjavanje(FajlMemorija fajl,int vr) {
-	drvo.add(korijen);
+	if(drvo.size()==0)
+		drvo.add(korijen);
+	
 	
 	djelioci();
 	for(int i=0;i<drvo.size();i++) {
@@ -133,6 +137,7 @@ public static void popunjavanje(FajlMemorija fajl,int vr) {
 					drvo.remove(lijevo);
 					drvo.remove(desno);
 					break;
+
 				}
 				//ako necemo, oslabadjam samo trazeni blok
 				else {
@@ -143,6 +148,32 @@ public static void popunjavanje(FajlMemorija fajl,int vr) {
 			}
 			else {
 				continue;
+			}
+		}
+		
+	
+
+		int i=drvo.size()-1;
+		System.out.println("indeks "+i);
+	
+		
+		if(!drvo.get(i).brat.blok.zauzet && !drvo.get(i).blok.zauzet) {
+			while(!drvo.get(i).brat.blok.zauzet && !drvo.get(i).blok.zauzet) {
+				
+				Cvor lijevo=drvo.get(i).roditelj.lijevo;
+				Cvor desno=drvo.get(i).roditelj.desno;
+				drvo.get(i).roditelj.blok.setSlobodan();
+				drvo.remove(lijevo);
+				drvo.remove(desno);
+				i=drvo.size()-1;
+
+				if(i==0)
+					break;
+				System.err.println("--"+i);
+				for(int j=0;j<drvo.size();j++) {
+					System.out.println("--"+drvo.get(j).vrijednost+"--");
+				}
+			
 			}
 		}
 	
