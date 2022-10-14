@@ -2,19 +2,18 @@ package Asembler;
 
 public class Operacija {
 	
-	static String naziv;
-	static String kod;
+	 private String naziv;
+	 private String kod;
 	
 	Operacija(String naziv,String kod){
 		this.naziv=naziv;
 		this.kod=kod;
 	}
 	
-	public static String getName() {
+	public  String getNaziv() {
 		return naziv;
 	}
-	
-	public static String getKod() {
+	 public String getKod() {
 		return kod;
 	}
 	
