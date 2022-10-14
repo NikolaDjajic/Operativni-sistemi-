@@ -11,30 +11,55 @@ public class SekundarnaMemorija {
 	static int brojBlokova;
 	static ArrayList<FajlMemorija> fajlovi;
 	
-	/*public static void main(String[]args) {
+	public static void main(String[]args) {
 		SekundarnaMemorija sm=new SekundarnaMemorija();
-		System.out.println(numberOfFreeBlocks());
+		//System.out.println(numberOfFreeBlocks());
 		FajlMemorija fajl=new FajlMemorija("aloo","alo".getBytes());
 		
 		sacuvaj(fajl);
-		System.out.println("hei"+fajl.getVelicina());;
-		System.out.println(numberOfFreeBlocks());
+		//System.out.println("hei"+fajl.getVelicina());;
+		//System.out.println(numberOfFreeBlocks());
 		FajlMemorija fajl1=new FajlMemorija("majmune","majmune".getBytes());
 		prebacivanje(fajl);
+		for(int i=0;i<BuddyS.getDrvo().size();i++)
+			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku());
+		//BuddyS.setSlobodniBlokovi();
+		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
 		sacuvaj(fajl1);
-		System.out.println(fajl1.getIndexBlok());
-		System.out.println(numberOfFreeBlocks());
-		System.out.println("jo"+fajl1.getDuzina());
-		System.out.println(fajl.getDuzina());
-		System.out.println("--"+fajl.getVelicina());
+		//prebacivanje(fajl1);
+		//for(int i=0;i<BuddyS.getDrvo().size();i++)
+			//System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku()+"\\"+BuddyS.getDrvo().get(i).blok.zauzet);
+		//BuddyS.setSlobodniBlokovi();
+		//for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			//System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
+		
+		//System.out.println(fajl1.getIndexBlok());
+		//System.out.println(numberOfFreeBlocks());
+		//System.out.println("jo"+fajl1.getDuzina());
+		//System.out.println(fajl.getDuzina());
+		//System.out.println("--"+fajl.getVelicina());
 		FajlMemorija fajl2=new FajlMemorija("dva","jebem vam pleme i projektima i svima".getBytes());
 		sacuvaj(fajl2);
-		System.out.println("ko mi je indeks "+fajl2.getIndexBlok());
-		System.out.println("koliki sam "+fajl2.getDuzina());
+		//System.out.println("ko mi je indeks "+fajl2.getIndexBlok());
+		//System.out.println("moi sadrzaj "+fajl2.getSadrzaj());
+		prebacivanje(fajl2);
+		for(int i=0;i<BuddyS.getDrvo().size();i++)
+			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku()+"\\"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.zauzet);
+		//BuddyS.setSlobodniBlokovi();
+		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
+		BuddyS.oslobadjanje(fajl);
+		System.out.println("----");
+		//BuddyS.setSlobodniBlokovi();
+		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			System.out.println(""+BuddyS.getSlobodniBlokovi().get(i).vrijednost);
+			
+		//System.out.println("koliki sam "+fajl2.getDuzina());
 		brisanjeFajla(fajl);
-		System.out.println(numberOfFreeBlocks());
-		System.out.println(readFile(fajl2));
-	}*/
+		//System.out.println(numberOfFreeBlocks());
+		//System.out.println(readFile(fajl2));
+	}
 
 	public SekundarnaMemorija() {
 		velicina=2048;
@@ -52,17 +77,7 @@ public class SekundarnaMemorija {
 	public static void prebacivanje(FajlMemorija fajl) {
 		BuddyS.popunjavanje(fajl,fajl.getVelicina());
 		System.out.println("Sadrzaj "+fajl.getSadrzaj());
-		for(int i=0;i<BuddyS.getDrvo().size();i++)
-			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku());
-		//BuddyS.setSlobodniBlokovi();
-		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-		BuddyS.oslobadjanje(fajl);
-		System.out.println("----");
-		//BuddyS.setSlobodniBlokovi();
-		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-			
+		
 	}
 	
 	//cuvanje
