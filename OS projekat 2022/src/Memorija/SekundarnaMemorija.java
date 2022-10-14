@@ -30,7 +30,7 @@ public class SekundarnaMemorija {
 			blokovi[i]=novi;
 		}
 		fajlovi=new ArrayList<>();
-		final File folder = new File("C:\\Users\\Sara\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi");
+		final File folder = new File("C:\\Users\\pc\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi");
 		listFilesForFolder(folder);
 		sacuvaj(fajlovi.get(0));
 		sacuvaj(fajlovi.get(1));

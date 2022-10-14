@@ -57,7 +57,7 @@ public class Fajlovi {
 		System.out.println("Trenutno ste u "+trenutni.getAbsolutePath());
 		String niz[] = trenutni.list();
 		for(String s :niz)
-			System.out.println(s);
+			System.out.println("  -"+s);
 	}
 	
 	public void del(File file){				//Obrisi

@@ -1,5 +1,6 @@
 package GUI;
 import java.io.*;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -95,19 +96,39 @@ public class Main extends Application {
 		return rez;
 	}
 	
+	public String getHelp() {
+		String rez="";
+		rez+="ls\t\t\tLista fajlove u trenutnom direktoriju\n";
+		rez+="..\t\t\tOtvara roditeljski direktorijum\n";
+		rez+="cd [naziv]\t\tMijenja trenutni folder\n";
+		rez+="mkd [naziv]\t\tPravi novi dir\n";
+		rez+="mkf [naziv]\t\tPravi novi file\n";
+		rez+="del [naziv]\t\tBrise dir ili file\n";
+		rez+="clear\t\t\tCisti terminal\n";
+		rez+="pr \t\t\tLista svih procesa\n";
+		rez+="ri \t\t\tRed izvrsavanja\n";
+		rez+="load [naziv]\t\tUcitava file(Proces)\n";
+		rez+="mem [naziv]\t\tIspisuje sekundarnu memoriju\n";
+		rez+="ram\t\t\tIspisuje ram\n";
+		rez+="exe\t\t\tIzvrsava program\n";
+		rez+="exit\t\t\tIzlaz\n";
+		
+		return rez;	
+	}
+	
 	public void komande(String kom) {
 		String []niz=kom.split("\\s+");
 		
 		//String sadr="";
 		
+		if(niz[0].equals("help"))
+			System.out.println(getHelp());
+		
 		if(niz[0].equals("clear"))
 			gore.clear();
 		
-		if(niz[0].equals("ls")) {
-			f.ispisiTr();
-			sm.ispisiBrojSlobodnihBlokova();
-			sm.ispisiBrojZauzetihBlokova();
-		}
+		if(niz[0].equals("ls"))
+			f.ispisiTr();	
 		
 		if(niz[0].equals(".."))
 			f.changeDir("..");
@@ -127,6 +148,9 @@ public class Main extends Application {
 				if(niz[1].equals(s1)) 
 					f.del(new File(f.getTrStr()+"\\"+niz[1]));					
 		}
+		if(niz[0].equals("prior")) 
+			rp.prioritetProcesa(Integer.parseInt(niz[1]), Integer.parseInt(niz[2]));
+				
 		
 		if(niz[0].equals("pr"))
 			rp.ispisiSveProcese();
@@ -145,17 +169,25 @@ public class Main extends Application {
 			}
 		}
 		
-		if(niz[0].equals("exe")) {
+		if(niz[0].equals("exe")) 
 			rp.run();
 		
-			
+		if(niz[0].equals("mem")) {
+			sm.ispisiBrojSlobodnihBlokova();
+			sm.ispisiBrojZauzetihBlokova();
+		}
+		
+		if(niz[0].equals("ram")) {
+			bs.getSlobodniBlokovi();
+		
+		}
 		/*	try {
 				rp.join();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-		}
+		
 			
 				
 	}
@@ -179,7 +211,7 @@ public class Main extends Application {
 		gore = new TextArea();
 		gore.setMinSize(900, 450);
 		gore.setEditable(false);
-		gore.setText("Welcome to the OS emulator!\n");
+		gore.setText("Dobrodosli u OS simulator!\n");
 
 		dole = new TextField();
 		dole.setMinSize(900, 62);
@@ -217,18 +249,12 @@ public class Main extends Application {
 				if(str.equals("exit"))
 					System.exit(0);
 				
-				
+				gore.appendText(">" + f.trenutni.getAbsolutePath() + "\n");
 				gore.appendText(">" + dole.getText() + "\n");
 				dole.clear();
 				
 				komande(str);
 				
-				
-				
-				
-				
-				
-
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

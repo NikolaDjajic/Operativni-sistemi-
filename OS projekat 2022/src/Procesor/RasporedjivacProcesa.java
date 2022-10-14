@@ -17,7 +17,6 @@ public class RasporedjivacProcesa extends Thread{
 	public static ArrayList<Proces> redIzvrsavanja = new ArrayList<Proces>();
 	public static Proces trenutniProces;
 	
-	
 	public RasporedjivacProcesa() {
 		
 	}
@@ -35,31 +34,16 @@ public class RasporedjivacProcesa extends Thread{
             			updatetRI();
             		}
             	}
-            	
+           
             	if(redIzvrsavanja.size()>0) {
             		Proces next = redIzvrsavanja.get(0);
             		
-            			redIzvrsavanja.remove(next);
-   		
-                       izvrsiProces(next);
-               //    	
-                       
-            //        if (!next.isBlocked() && !next.isTerminated() && !next.isSuspended() && !next.isDone()) {
-            //            readyQueue.add(next);
+            		redIzvrsavanja.remove(next);
+                    izvrsiProces(next);
                     }
                 }
-            
-		try {
-			Thread.sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		}
             
-  //      }	
-//	}
-	
 	
 	public void izvrsiProces(Proces proces) {
 		this.trenutniProces=proces;
@@ -68,6 +52,12 @@ public class RasporedjivacProcesa extends Thread{
 		
 		izvrsiMasinski(this.trenutniProces);
 		this.trenutniProces.stanje=StanjeProcesa.DONE;
+	}
+	
+	public void termProces(String naziv) {
+		for(Proces p : sviProcesi)
+			if(p.ime.equals(naziv))
+				p.stanje=StanjeProcesa.TERMINATED;
 	}
 	
 	public static void izvrsiMasinski(Proces p) {
@@ -112,14 +102,12 @@ public class RasporedjivacProcesa extends Thread{
 		}
 		Asembler.resetRegistre();
 	}
-	
-	
-	public static void ucitajProces(String naziv,String put) {
-		System.err.println(naziv+" "+ put);
 		
+	public static void ucitajProces(String naziv,String put) {
 		Proces novi = new Proces(naziv,put);
-		System.err.println(novi+" "+put+"");
+		//System.err.println(novi+" "+put);
 		sviProcesi.add(novi);
+		updatetRI();
 	}
 	
 	public static void updatetRI() {
@@ -157,32 +145,16 @@ public class RasporedjivacProcesa extends Thread{
 			System.out.println("Nijedan proces nije ucitan!");
 	}
 	
+	public void prioritetProcesa(int id,int vr) {
+		for(Proces p:sviProcesi)
+			if(p.ID==id)
+				p.prioritet=vr;	
+	}
+	
 	public static void setOut(OutputStream out) {
 		System.setOut(new PrintStream(out, true));
 	}
 	
 	public static void main(String[]args) {
-		Asembler a = new Asembler();
-		Proces p = new Proces("cao1","C:\\Users\\pc\\Desktop\\os1\\Operativni-sistemi--main\\OS projekat 2022\\Programi\\cao\\test01.asm");
-		Proces p1 = new Proces("caos","C:\\Users\\pc\\Desktop\\os1\\Operativni-sistemi--main\\OS projekat 2022\\Programi\\cao\\test01.asm");
-		p1.stanje=StanjeProcesa.BLOCKED;
-		p1.prioritet=3;
-		
-		
-		
-		RasporedjivacProcesa rp = new RasporedjivacProcesa();
-		RasporedjivacProcesa.isipisiRedIzvrsavanja();
-		
-		rp.run();
-	
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("C");
-		p1.stanje=StanjeProcesa.READY;
-		
-	}	
+	}
 }
