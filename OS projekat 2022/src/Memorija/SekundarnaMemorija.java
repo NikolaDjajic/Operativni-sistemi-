@@ -11,6 +11,31 @@ public class SekundarnaMemorija {
 	static int brojBlokova;
 	static ArrayList<FajlMemorija> fajlovi;
 	
+	/*public static void main(String[]args) {
+		SekundarnaMemorija sm=new SekundarnaMemorija();
+		System.out.println(numberOfFreeBlocks());
+		FajlMemorija fajl=new FajlMemorija("aloo","alo".getBytes());
+		
+		sacuvaj(fajl);
+		System.out.println("hei"+fajl.getVelicina());;
+		System.out.println(numberOfFreeBlocks());
+		FajlMemorija fajl1=new FajlMemorija("majmune","majmune".getBytes());
+		prebacivanje(fajl);
+		sacuvaj(fajl1);
+		System.out.println(fajl1.getIndexBlok());
+		System.out.println(numberOfFreeBlocks());
+		System.out.println("jo"+fajl1.getDuzina());
+		System.out.println(fajl.getDuzina());
+		System.out.println("--"+fajl.getVelicina());
+		FajlMemorija fajl2=new FajlMemorija("dva","jebem vam pleme i projektima i svima".getBytes());
+		sacuvaj(fajl2);
+		System.out.println("ko mi je indeks "+fajl2.getIndexBlok());
+		System.out.println("koliki sam "+fajl2.getDuzina());
+		brisanjeFajla(fajl);
+		System.out.println(numberOfFreeBlocks());
+		System.out.println(readFile(fajl2));
+	}*/
+
 	public SekundarnaMemorija() {
 		velicina=2048;
 		brojBlokova=velicina/Blok.getVelicinaFajl();
@@ -22,17 +47,27 @@ public class SekundarnaMemorija {
 		fajlovi=new ArrayList<>();
 	}
 	
-	private static int numberOfFreeBlocks() {
-        int counter = 0;
-        for (int i = 0; i < brojBlokova; i++)
-            if (!blokovi[i].zauzet)
-                counter++;
-        return counter;
-    }
+	
+	//u ram
+	public static void prebacivanje(FajlMemorija fajl) {
+		BuddyS.popunjavanje(fajl,fajl.getVelicina());
+		System.out.println("Sadrzaj "+fajl.getSadrzaj());
+		for(int i=0;i<BuddyS.getDrvo().size();i++)
+			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku());
+		//BuddyS.setSlobodniBlokovi();
+		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
+		BuddyS.oslobadjanje(fajl);
+		System.out.println("----");
+		//BuddyS.setSlobodniBlokovi();
+		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
+			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
+			
+	}
 	
 	//cuvanje
 	
-	public void sacuvaj(FajlMemorija fajl) {
+	public static void sacuvaj(FajlMemorija fajl) {
 		
 		int reminder=fajl.getVelicina()%Blok.getVelicinaFajl();
 		int broj;
@@ -49,13 +84,13 @@ public class SekundarnaMemorija {
 			Blok indeks=null;
 			int pomocnaLista[]=null;
 			
-			for(int i=0;i<broj;i++)
+			for(int i=0;i<brojBlokova;i++)
 				if(!blokovi[i].zauzet) {
 					blokovi[i].setZauzet();
 					if(brojac==0) {
 						indeks=blokovi[i];
 						fajl.setIndexBlok(i);
-						blokovi[i].dodajSadrzaj("ib ".getBytes());
+						blokovi[i].dodajSadrzaj("ib  ".getBytes());
 						brojac++;
 						pomocnaLista=new int[broj-1];
 					}
@@ -80,7 +115,8 @@ public class SekundarnaMemorija {
 			System.out.println("Nemate dovoljno prostora da biste kreirali fajl.");
 		}
 	}
-	public void brisanjeFajla(FajlMemorija file) {
+	
+	public static void brisanjeFajla(FajlMemorija file) {
         if (!fajlovi.contains(file))
             System.out.println("Vas fajl nije u sekundarnoj memoriji.");
         else {
@@ -97,10 +133,11 @@ public class SekundarnaMemorija {
         fajlovi.remove(file);
     }
 
-    public String readFile(FajlMemorija file) {
+    public static String readFile(FajlMemorija file) {
         String read = "";
         int index = file.getIndexBlok();
         Blok in = blokovi[index];
+        System.err.println(in.getLista());
         for (int i = 0; i < in.getLista().length; i++) {
             int index2 = in.getLista()[i];
             // System.out.println(index2);
@@ -111,7 +148,13 @@ public class SekundarnaMemorija {
         return read;
     }
 
-   
+    private static int numberOfFreeBlocks() {
+        int counter = 0;
+        for (int i = 0; i < brojBlokova; i++)
+            if (!blokovi[i].zauzet)
+                counter++;
+        return counter;
+    }
 
     public boolean sadrzi(String fileName) {
         for (FajlMemorija f : fajlovi)

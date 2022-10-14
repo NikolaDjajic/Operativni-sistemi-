@@ -2,9 +2,11 @@ package Memorija;
 
 public class Blok {
 	int velicina;
+	String imeFajlaUBloku;
 	private final static int velicina_fajl=4;
 	boolean zauzet=false;
 	byte[] sadrzaj;
+	String sadrzajString;
 	int adresa;
 	int[] lista;
 	
@@ -15,6 +17,17 @@ public class Blok {
 
 	}
 	
+	public Blok(int velicina) {
+		this.velicina=velicina;
+	}
+	
+	public void setImeFajlaUBloku(String im) {
+		imeFajlaUBloku=im;
+	}
+	
+	public String getImeFajlaUBloku() {
+		return imeFajlaUBloku;
+	}
 	
 	public void setLista(int[] lista) {
 		this.lista=lista;
@@ -28,10 +41,14 @@ public class Blok {
 		return sadrzaj;
 	}
 	
-	
-	public Blok(int velicina) {
-		this.velicina=velicina;
+	public String getSadrzajString() {
+		return sadrzajString;
 	}
+	
+	public void dodajSadrzajString(String s) {
+		this.sadrzajString=s;
+	}
+	
 	
 	public static int getVelicinaFajl() {
 		return velicina_fajl;
