@@ -10,15 +10,14 @@ import Procesor.StanjeProcesa;
 
 public class SekundarnaMemorija {
 
-	static int velicina;
-	static Blok[] blokovi;
-	static int brojBlokova;
-	static ArrayList<FajlMemorija> fajlovi;
+	private static int velicina;
+	private static Blok[] blokovi;
+	private static int brojBlokova;
+	private static ArrayList<FajlMemorija> fajlovi;
+	private static int brojac=0;
 	
 	public static void main(String[]args) {
 		SekundarnaMemorija sm=new SekundarnaMemorija();
-		
-	
 	}
 
 	public SekundarnaMemorija() {
@@ -30,11 +29,13 @@ public class SekundarnaMemorija {
 			blokovi[i]=novi;
 		}
 		fajlovi=new ArrayList<>();
-		final File folder = new File("C:\\Users\\pc\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi");
+		final File folder = new File("C:\\Users\\Sara\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi\\cao");
+		final File folder1 = new File("C:\\Users\\Sara\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi\\caos");
 		listFilesForFolder(folder);
-		sacuvaj(fajlovi.get(0));
-		sacuvaj(fajlovi.get(1));
-		sacuvaj(fajlovi.get(2));
+		listFilesForFolder(folder1);
+		for(int i=0;i<brojac;i++)
+			sacuvaj(fajlovi.get(i));
+		
 	}
 	
 	
@@ -109,7 +110,14 @@ public class SekundarnaMemorija {
 	}
 	
 	public static void brisanjeFajla(FajlMemorija file) {
-        if (!fajlovi.contains(file))
+		boolean tr=false;
+		for(int i=0;i<fajlovi.size();i++) {
+			if(file.getIme().equals(fajlovi.get(i).getIme())) {
+					tr=true;
+					break;
+			}
+		}
+        if (!tr)
             System.out.println("Vas fajl nije u sekundarnoj memoriji.");
         else {
             int index = file.getIndexBlok();
@@ -121,6 +129,9 @@ public class SekundarnaMemorija {
             }
             blokovi[index].setSlobodan();;
             blokovi[index].dodajSadrzaj(null);;
+            System.out.println("Fajl je izbrisan.");
+            ispisiBrojSlobodnihBlokova();
+            ispisiBrojZauzetihBlokova();
         }
         fajlovi.remove(file);
     }
@@ -204,6 +215,7 @@ public class SekundarnaMemorija {
             } else {
                 System.out.println(fileEntry.getName());
                 fajlovi.add(new FajlMemorija(fileEntry.getName(),readFile(fileEntry).getBytes()));
+                brojac++;
             }
         }
     }
@@ -236,10 +248,10 @@ public class SekundarnaMemorija {
         return list2.substring(0, list2.length() - 2);
     }
 
-    public static void printMemoryAllocationTable() {
+   /* public static void printMemoryAllocationTable() {
         System.out.println("Name of file\tIndex block\tBlocks occupied by this file\t\t\t\t\tLength");
         for (FajlMemorija file : fajlovi)
             System.out.println(file.getIme() + "\t\t" + file.getIndexBlok() + "\t" +
                     printList(blokovi[file.getIndexBlok()].getLista()) + "\t\t\t\t\t" + file.getDuzina());
-    }
+    }*/
 }

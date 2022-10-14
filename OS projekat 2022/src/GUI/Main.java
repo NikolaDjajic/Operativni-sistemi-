@@ -139,14 +139,19 @@ public class Main extends Application {
 		if(niz[0].equals("mkd"))
 			f.mkd(niz[1]);
 	
-		if(niz[0].equals("mkf"))
+		if(niz[0].equals("mkf")) {
 			f.mkf(niz[1]);
+			sm.sacuvaj(new FajlMemorija(niz[1],"slabsadrzaj".getBytes()));
+			
+		}
 	
 		if(niz[0].equals("del")) {
 			String[] niz1 = f.getListTren();
+			File f1=new File(f.getTrStr()+"\\"+niz[1]);
+			sm.brisanjeFajla(new FajlMemorija(niz[1],sm.readFile(f1).getBytes()));
 			for(String s1:niz1)
 				if(niz[1].equals(s1)) 
-					f.del(new File(f.getTrStr()+"\\"+niz[1]));					
+					f.del(new File(f.getTrStr()+"\\"+niz[1]));	
 		}
 		if(niz[0].equals("prior")) 
 			rp.prioritetProcesa(Integer.parseInt(niz[1]), Integer.parseInt(niz[2]));
@@ -169,8 +174,12 @@ public class Main extends Application {
 			}
 		}
 		
-		if(niz[0].equals("exe"))
+		if(niz[0].equals("exe")) {
 			rp.run();
+			if(!rp.isAlive()) {
+				//ovdje treba oslobadjanje
+			}
+		}
 		
 		if(niz[0].equals("mem")) {
 			sm.ispisiBrojSlobodnihBlokova();

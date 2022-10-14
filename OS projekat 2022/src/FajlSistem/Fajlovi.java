@@ -23,7 +23,7 @@ public class Fajlovi {
 		noviDir.mkdir();
 	}
 	
-	public void changeDir(String put) {					//Promjeni dir
+	public void changeDir(String put) {					//Promijeni dir
 		if(put.equals("..")) {
 			if(trenutni.getAbsolutePath().equals(parent.getAbsolutePath()))
 				System.err.println("Ne mozete ici unazad vise!");

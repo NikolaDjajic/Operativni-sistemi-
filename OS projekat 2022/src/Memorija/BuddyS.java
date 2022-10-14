@@ -21,24 +21,24 @@ public class BuddyS {
 		drvo.add(korijen);
 	}
 	
-public static void popunjavanje(FajlMemorija fajl,int vr) {
-	if(drvo.size()==0)
-		drvo.add(korijen);
+	public static void popunjavanje(FajlMemorija fajl,int vr) {
+		if(drvo.size()==0)
+			drvo.add(korijen);
 	
 	
-	djelioci();
-	for(int i=0;i<drvo.size();i++) {
-		if(!drvo.get(i).blok.zauzet) {
-			najveciSlobodanBlok=drvo.get(i).vrijednost;
-			break;
+		djelioci();
+		for(int i=0;i<drvo.size();i++) {
+			if(!drvo.get(i).blok.zauzet) {
+				najveciSlobodanBlok=drvo.get(i).vrijednost;
+				break;
+			}
 		}
-	}
 		
-	if(najveciSlobodanBlok<vr) {
+		if(najveciSlobodanBlok<vr) {
 			System.out.println("---"+najveciSlobodanBlok+"----");
 			System.err.println("Nedovoljno memorije za Vas");
-	}
-	else {
+		}
+		else {
 		
 			int trazeni=0;
 			//pronadjimo koji to blok bi odgovarao nasem 
