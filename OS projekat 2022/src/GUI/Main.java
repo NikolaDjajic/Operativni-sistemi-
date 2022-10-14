@@ -1,10 +1,16 @@
 package GUI;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import Asembler.Asembler;
+import FajlSistem.FajlMemorija;
 import FajlSistem.Fajlovi;
+import Memorija.BuddyS;
+import Memorija.SekundarnaMemorija;
+import Procesor.Proces;
 import Procesor.RasporedjivacProcesa;
+import Procesor.StanjeProcesa;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,14 +40,20 @@ public class Main extends Application {
 	public static Fajlovi f;
 	private static RasporedjivacProcesa rp;
 	private static Asembler a;
+	private static SekundarnaMemorija sm;
+	private static BuddyS bs;
+	private static FajlMemorija fm;
 	
 	public static void boot() {
 		f = new Fajlovi("Programi");
 		rp = new RasporedjivacProcesa();
 		a = new Asembler();
+		sm = new SekundarnaMemorija();
+		bs = new BuddyS();
 	}
 	
 	public static void main(String[] args) throws IOException {
+		
 		boot();
 		launch(args);
 	}
@@ -86,11 +98,16 @@ public class Main extends Application {
 	public void komande(String kom) {
 		String []niz=kom.split("\\s+");
 		
+		//String sadr="";
+		
 		if(niz[0].equals("clear"))
 			gore.clear();
 		
-		if(niz[0].equals("ls"))
+		if(niz[0].equals("ls")) {
 			f.ispisiTr();
+			sm.ispisiBrojSlobodnihBlokova();
+			sm.ispisiBrojZauzetihBlokova();
+		}
 		
 		if(niz[0].equals(".."))
 			f.changeDir("..");
@@ -117,8 +134,11 @@ public class Main extends Application {
 			rp.isipisiRedIzvrsavanja();
 		// Loaduje proces
 		if(niz[0].equals("load")) {		//Iz sek u ram
-			if(f.uStablu(niz[1])) 
+			if(f.uStablu(niz[1])) {
 				rp.ucitajProces(niz[1],f.trenutni.getAbsolutePath()+"\\"+niz[1]);
+				File ff=new File(f.trenutni.getAbsolutePath()+"\\"+niz[1]);
+				sm.prebacivanje(new FajlMemorija(niz[1],sm.readFile(ff).getBytes()));
+			}
 			else {
 				System.out.println("Taj program se ne nalazi u ovoj datoteci");
 				System.out.println(f.trenutni.getAbsolutePath());
@@ -127,6 +147,8 @@ public class Main extends Application {
 		
 		if(niz[0].equals("exe")) {
 			rp.run();
+		
+			
 		/*	try {
 				rp.join();
 			} catch (InterruptedException e) {

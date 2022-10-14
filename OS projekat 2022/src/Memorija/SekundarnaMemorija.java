@@ -1,8 +1,12 @@
 package Memorija;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import FajlSistem.FajlMemorija;
+import Procesor.StanjeProcesa;
 
 public class SekundarnaMemorija {
 
@@ -13,52 +17,8 @@ public class SekundarnaMemorija {
 	
 	public static void main(String[]args) {
 		SekundarnaMemorija sm=new SekundarnaMemorija();
-		//System.out.println(numberOfFreeBlocks());
-		FajlMemorija fajl=new FajlMemorija("aloo","alo".getBytes());
 		
-		sacuvaj(fajl);
-		//System.out.println("hei"+fajl.getVelicina());;
-		//System.out.println(numberOfFreeBlocks());
-		FajlMemorija fajl1=new FajlMemorija("majmune","majmune".getBytes());
-		prebacivanje(fajl);
-		for(int i=0;i<BuddyS.getDrvo().size();i++)
-			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku());
-		//BuddyS.setSlobodniBlokovi();
-		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-		sacuvaj(fajl1);
-		//prebacivanje(fajl1);
-		//for(int i=0;i<BuddyS.getDrvo().size();i++)
-			//System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku()+"\\"+BuddyS.getDrvo().get(i).blok.zauzet);
-		//BuddyS.setSlobodniBlokovi();
-		//for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			//System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-		
-		//System.out.println(fajl1.getIndexBlok());
-		//System.out.println(numberOfFreeBlocks());
-		//System.out.println("jo"+fajl1.getDuzina());
-		//System.out.println(fajl.getDuzina());
-		//System.out.println("--"+fajl.getVelicina());
-		FajlMemorija fajl2=new FajlMemorija("dva","jebem vam pleme i projektima i svima".getBytes());
-		sacuvaj(fajl2);
-		//System.out.println("ko mi je indeks "+fajl2.getIndexBlok());
-		//System.out.println("moi sadrzaj "+fajl2.getSadrzaj());
-		prebacivanje(fajl2);
-		for(int i=0;i<BuddyS.getDrvo().size();i++)
-			System.err.println(BuddyS.getDrvo().get(i).vrijednost+"||"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.getImeFajlaUBloku()+"\\"+BuddyS.getDrvo().get(i).blok.sadrzajString+"\\"+BuddyS.getDrvo().get(i).blok.zauzet);
-		//BuddyS.setSlobodniBlokovi();
-		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			System.out.println(BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-		BuddyS.oslobadjanje(fajl);
-		System.out.println("----");
-		//BuddyS.setSlobodniBlokovi();
-		for(int i=0;i<BuddyS.getSlobodniBlokovi().size();i++)
-			System.out.println(""+BuddyS.getSlobodniBlokovi().get(i).vrijednost);
-			
-		//System.out.println("koliki sam "+fajl2.getDuzina());
-		brisanjeFajla(fajl);
-		//System.out.println(numberOfFreeBlocks());
-		//System.out.println(readFile(fajl2));
+	
 	}
 
 	public SekundarnaMemorija() {
@@ -70,13 +30,29 @@ public class SekundarnaMemorija {
 			blokovi[i]=novi;
 		}
 		fajlovi=new ArrayList<>();
+		final File folder = new File("C:\\Users\\Sara\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi");
+		listFilesForFolder(folder);
+		sacuvaj(fajlovi.get(0));
+		sacuvaj(fajlovi.get(1));
+		sacuvaj(fajlovi.get(2));
 	}
 	
 	
 	//u ram
 	public static void prebacivanje(FajlMemorija fajl) {
-		BuddyS.popunjavanje(fajl,fajl.getVelicina());
-		System.out.println("Sadrzaj "+fajl.getSadrzaj());
+		if(BuddyS.imaLiMjesta(fajl)) {
+			BuddyS.popunjavanje(fajl,fajl.getVelicina());
+			System.out.println("Fajl je presao na radnu memoriju. ");
+			BuddyS.getZauzetiBlokovi();
+			BuddyS.getSlobodniBlokovi();
+		}
+		else {
+			System.out.println("Nedovoljno prostora.");
+			BuddyS.getZauzetiBlokovi();
+			BuddyS.getSlobodniBlokovi();
+		}
+		
+		
 		
 	}
 	
@@ -119,6 +95,7 @@ public class SekundarnaMemorija {
 						if(brojac==broj) {
 							fajl.setDuzina(brojac);
 							fajlovi.add(fajl);
+							System.out.println("Ucitano u sekundarnu memoriju.");
 							indeks.setLista(pomocnaLista);
 							return;
 							
@@ -170,12 +147,65 @@ public class SekundarnaMemorija {
                 counter++;
         return counter;
     }
+    
+    private static int numberOfOccupiedBlocks() {
+    	 int counter = 0;
+         for (int i = 0; i < brojBlokova; i++)
+             if (blokovi[i].zauzet)
+                 counter++;
+         return counter;
+    }
+    
+    public static void ispisiBrojSlobodnihBlokova() {
+    	System.out.println("-----------");
+    	System.out.println("Ukupna velicina memorije SM : "+velicina);
+    	System.out.println("-----------");
+    	System.out.println("Broj slobodnih blokova SM : "+numberOfFreeBlocks());
+    	System.out.println("-----------");
+    }
+    
+    public static void ispisiBrojZauzetihBlokova() {
+    	System.out.println("Broj zauzetih blokova SM : "+numberOfOccupiedBlocks());
+    }
 
     public boolean sadrzi(String fileName) {
         for (FajlMemorija f : fajlovi)
             if (f.getIme().equals(fileName))
                 return true;
         return false;
+    }
+    
+    public static String readFile(File f) {
+    	String rez="";
+    	
+    	try {
+			Scanner citac = new Scanner(f);
+			while (citac.hasNextLine()) {
+				String linija = citac.nextLine();
+				rez+=linija+" ";
+			}
+			
+			citac.close();
+			
+			
+		} catch (FileNotFoundException e) {
+			System.out.printf("Error! \n");
+			e.printStackTrace();
+		}
+    	
+    	return rez;
+    }
+    
+    public static void listFilesForFolder(final File folder) {
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+                
+            } else {
+                System.out.println(fileEntry.getName());
+                fajlovi.add(new FajlMemorija(fileEntry.getName(),readFile(fileEntry).getBytes()));
+            }
+        }
     }
     
 

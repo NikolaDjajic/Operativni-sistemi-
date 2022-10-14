@@ -25,7 +25,7 @@ public class Proces {
 	String putanja;
 	ArrayList<String> asemblerskeInstrukcije;
 	String masinskeInstrukcije;
-	
+	static String sadrzajDatoteke;
 	
 	public Proces(String naziv,int pr,String put) {
 		this.ID=RasporedjivacProcesa.sviProcesi.size();
@@ -114,6 +114,9 @@ public class Proces {
 		}
 	}
 	
+	public static String getSadrzaj() {
+		return sadrzajDatoteke;
+	}
 	
 	public void ispisiAsemblerskeInst() {
 		for(String s:asemblerskeInstrukcije)

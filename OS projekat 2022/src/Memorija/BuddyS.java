@@ -8,15 +8,18 @@ import FajlSistem.FajlMemorija;
 
 public class BuddyS {
 	
-	static int ukupnaMemorija=1024;
-	static ArrayList<Integer> djelioci=new ArrayList<Integer>();
-	static ArrayList<Cvor> drvo=new ArrayList<Cvor>();
-	static ArrayList<Cvor> slobodniBlokovi=new ArrayList<Cvor>();
-	static int najveciSlobodanBlok;
-	static Cvor korijen=new Cvor(new Blok(1024,1001));
+	private static int ukupnaMemorija=1024;
+	private static ArrayList<Integer> djelioci=new ArrayList<Integer>();
+	private static ArrayList<Cvor> drvo=new ArrayList<Cvor>();
+	private static ArrayList<Cvor> slobodniBlokovi=new ArrayList<Cvor>();
+	private static ArrayList<Cvor> zauzetiBlokovi=new ArrayList<Cvor>();
+	private static int najveciSlobodanBlok;
+	private static Cvor korijen=new Cvor(new Blok(1024,1001));
 	
 
-	
+	public BuddyS(){
+		drvo.add(korijen);
+	}
 	
 public static void popunjavanje(FajlMemorija fajl,int vr) {
 	if(drvo.size()==0)
@@ -195,7 +198,7 @@ public static void popunjavanje(FajlMemorija fajl,int vr) {
 	}
 	
 	public static void setSlobodniBlokovi(){
-	
+		
 		ArrayList<Cvor> s=new ArrayList<Cvor>();
 		for(int i=0;i<drvo.size();i++) {
 			if(!drvo.get(i).blok.zauzet)
@@ -205,8 +208,41 @@ public static void popunjavanje(FajlMemorija fajl,int vr) {
 	}
 	
 	public static ArrayList<Cvor> getSlobodniBlokovi() {
+		
 		setSlobodniBlokovi();
+		System.out.println("--------");
+		for(int i=0;i<slobodniBlokovi.size();i++)
+			System.out.println("slobodan blok RAM-a : "+slobodniBlokovi.get(i).vrijednost);
 		return slobodniBlokovi;
+	}
+	
+	public static void setZauzetiBlokovi() {
+		
+		ArrayList<Cvor> s=new ArrayList<Cvor>();
+		for(int i=0;i<drvo.size();i++) {
+			if(drvo.get(i).blok.zauzet)
+				s.add(drvo.get(i));
+		}
+		zauzetiBlokovi=s;
+	}
+	
+	public static ArrayList<Cvor> getZauzetiBlokovi(){
+		setZauzetiBlokovi();
+		for(int i=0;i<zauzetiBlokovi.size();i++)
+			System.out.println("zauzet blok RAM-a "+zauzetiBlokovi.get(i).vrijednost);
+		return zauzetiBlokovi;
+	}
+	
+	public static boolean imaLiMjesta(FajlMemorija file) {
+		boolean f=false;
+		setSlobodniBlokovi();
+		for(int i=0;i<slobodniBlokovi.size();i++) {
+			if(file.getVelicina()<slobodniBlokovi.get(i).vrijednost) {
+				f=true;
+				break;
+			}
+		}
+		return f;
 	}
 }
 
