@@ -8,7 +8,7 @@ import java.util.Comparator;
 public class RasporedjivacProcesa extends Thread{
 	
 	static ArrayList<Proces> sviProcesi = new ArrayList<Proces>();
-	static ArrayList<Proces> redIzvrsavanja = new ArrayList<Proces>();
+	public static ArrayList<Proces> redIzvrsavanja = new ArrayList<Proces>();
 	public static Proces trenutniProces;
 	
 	
@@ -52,13 +52,13 @@ public class RasporedjivacProcesa extends Thread{
 	
 	public static void main(String[]args) {
 		
-		Proces p = new Proces("p1",3);
+		/*Proces p = new Proces("p1",3);
 		Proces p1 = new Proces("p2",5);
 		Proces p2 = new Proces("p3",1);
 		Proces p3 = new Proces("p4",9);
 		Proces p4 = new Proces("p5",0);
 		Proces p5 = new Proces("p6",13);
-		Proces p6 = new Proces("p7",2);
+		Proces p6 = new Proces("p7",2);*/
 		RasporedjivacProcesa.isipisiRedIzvrsavanja();
 		
 	}	
