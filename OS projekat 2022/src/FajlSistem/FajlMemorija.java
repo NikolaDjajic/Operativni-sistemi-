@@ -28,6 +28,10 @@ public class FajlMemorija {
 		velicina=sadrzaj.length;
 	}
 	
+	public void setSadrzajString() {
+		this.sadrzajString = new String(sadrzaj, StandardCharsets.UTF_8);
+	}
+	
 	
 	public static byte[] dio(int index) {
 		byte[] dio=new byte[Blok.getVelicinaFajl()];
@@ -47,7 +51,7 @@ public class FajlMemorija {
 	}
 	
 	public String getSadrzaj() {
-		return sadrzajString;
+		return this.sadrzajString;
 	}
 	
 	public byte[] getBajtSadrzaj() {

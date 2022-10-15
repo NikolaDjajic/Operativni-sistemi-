@@ -33,8 +33,8 @@ public class SekundarnaMemorija {
 		final File folder1 = new File("C:\\Users\\Sara\\Documents\\GitHub\\Operativni-sistemi-\\OS projekat 2022\\Programi\\caos");
 		listFilesForFolder(folder);
 		listFilesForFolder(folder1);
-		for(int i=0;i<brojac;i++)
-			sacuvaj(fajlovi.get(i));
+		//for(int i=0;i<brojac;i++)
+			//sacuvaj(fajlovi.get(i));
 		
 	}
 	

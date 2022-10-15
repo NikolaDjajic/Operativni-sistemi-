@@ -162,11 +162,23 @@ public class Main extends Application {
 		if(niz[0].equals("ri"))
 			rp.isipisiRedIzvrsavanja();
 		// Loaduje proces
-		if(niz[0].equals("load")) {		//Iz sek u ram
+		String zaExe="";
+		if(niz[0].equals("load")) {	
+			//Iz sek u ram
+			
 			if(f.uStablu(niz[1])) {
-				rp.ucitajProces(niz[1],f.trenutni.getAbsolutePath()+"\\"+niz[1]);
+				
+				zaExe=f.trenutni.getAbsolutePath()+"\\"+niz[1];
 				File ff=new File(f.trenutni.getAbsolutePath()+"\\"+niz[1]);
-				sm.prebacivanje(new FajlMemorija(niz[1],sm.readFile(ff).getBytes()));
+				FajlMemorija fm=new FajlMemorija(niz[1],sm.readFile(ff).getBytes());
+				
+				if(bs.imaLiMjesta(fm)) {
+					rp.ucitajProces(niz[1],f.trenutni.getAbsolutePath()+"\\"+niz[1]);
+					sm.prebacivanje(new FajlMemorija(niz[1],sm.readFile(ff).getBytes()));
+				}
+				else {
+					System.out.println("Nemate mjesta");
+				}
 			}
 			else {
 				System.out.println("Taj program se ne nalazi u ovoj datoteci");
@@ -176,9 +188,11 @@ public class Main extends Application {
 		
 		if(niz[0].equals("exe")) {
 			rp.run();
-			if(!rp.isAlive()) {
+			//if(!rp.isAlive()) {
 				//ovdje treba oslobadjanje
-			}
+				//File f1=new File(zaExe);
+				//bs.oslobadjanje(new FajlMemorija(f1.getName(),sm.readFile(f1).getBytes()));
+			//}
 		}
 		
 		if(niz[0].equals("mem")) {

@@ -48,7 +48,7 @@ public class BuddyS {
 					break;
 				}
 			}
-			System.out.println("trazeni "+trazeni);
+			//System.out.println("trazeni "+trazeni);
 			int konstTrazeni=trazeni;
 		
 			//sada pogledajmo da li u nasem drvetu ima slobodan blok te vrijednosti
@@ -117,6 +117,7 @@ public class BuddyS {
 		cvorKojiPunim.blok.dodajSadrzaj(fajl.getBajtSadrzaj());
 		cvorKojiPunim.blok.dodajSadrzajString( fajl.getSadrzaj());
 		cvorKojiPunim.blok.setImeFajlaUBloku(fajl.getIme());
+		cvorKojiPunim.blok.setFajl(fajl);
 		}
 		
 		
@@ -125,15 +126,19 @@ public class BuddyS {
 	
 	public static void oslobadjanje(FajlMemorija fajl) {
 		
+		String s1=fajl.getSadrzaj();
+		String s="";
 		for(int i=0;i<drvo.size();i++) {
+			s=drvo.get(i).blok.getSadrzajString();
 			
-			if(drvo.get(i).blok.sadrzajString!=null && drvo.get(i).blok.sadrzajString.equals(fajl.getSadrzaj()) ) {
+		
+			if(drvo.get(i).blok.getFajl()!=null && drvo.get(i).blok.getFajl().equals(fajl) ) {
 				
 				drvo.get(i).blok.obrisiSadrzaj();
-				
+	
 				//hocemo li slijepiti ili ne
 				if(!drvo.get(i).brat.blok.zauzet) {
-					System.out.println("---obrisan sadrzaj "+fajl.getSadrzaj()+" iz bloka sa pozicije "+i+ "obrisan je i njegov parnjak na poziciji "+drvo.indexOf(drvo.get(i).brat));
+					System.out.println("---obrisan sadrzaj "+fajl.getSadrzaj()+" iz bloka sa pozicije "+i+ " obrisan je i njegov parnjak na poziciji "+drvo.indexOf(drvo.get(i).brat));
 					Cvor lijevo=drvo.get(i).roditelj.lijevo;
 					Cvor desno=drvo.get(i).roditelj.desno;
 					drvo.get(i).roditelj.blok.setSlobodan();
@@ -179,7 +184,8 @@ public class BuddyS {
 			
 			}
 		}
-	
+		getSlobodniBlokovi();
+		getZauzetiBlokovi();
 		
 	}
 	

@@ -1,20 +1,33 @@
 package Memorija;
 
+import FajlSistem.FajlMemorija;
+
 public class Blok {
+	
 	int velicina;
-	String imeFajlaUBloku;
+	private String imeFajlaUBloku;
 	private final static int velicina_fajl=4;
 	boolean zauzet=false;
-	byte[] sadrzaj;
-	String sadrzajString;
+	private byte[] sadrzaj;
+	private String sadrzajString;
 	int adresa;
-	int[] lista;
-	
+	private int[] lista;
+	private FajlMemorija fm;
 	
 	public Blok(int velicina,int adresa) {
 		this.velicina=velicina;
 		this.adresa=adresa;
-
+		this.sadrzaj=null;
+		this.sadrzajString=null;
+		this.fm=null;
+	}
+	
+	public void setFajl(FajlMemorija f) {
+		this.fm=f;
+	}
+	
+	public FajlMemorija getFajl() {
+		return this.fm;
 	}
 	
 	public Blok(int velicina) {
@@ -22,7 +35,7 @@ public class Blok {
 	}
 	
 	public void setImeFajlaUBloku(String im) {
-		imeFajlaUBloku=im;
+		this.imeFajlaUBloku=im;
 	}
 	
 	public String getImeFajlaUBloku() {
@@ -42,7 +55,7 @@ public class Blok {
 	}
 	
 	public String getSadrzajString() {
-		return sadrzajString;
+		return this.sadrzajString;
 	}
 	
 	public void dodajSadrzajString(String s) {
@@ -61,6 +74,7 @@ public class Blok {
 	
 	public void obrisiSadrzaj() {
 		this.sadrzaj=null;
+		this.sadrzajString=null;
 	}
 	
 	public void setZauzet() {
